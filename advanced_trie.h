@@ -1,44 +1,51 @@
-#ifndef ADVANCED_TRIE_H
-#define ADVANCED_TRIE_H
+#ifndef ENHANCED_DICTIONARY_H
+#define ENHANCED_DICTIONARY_H
 
-#include <memory>
+#include "advanced_trie.h"
 #include <string>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <iostream>
 
-// Forward declaration from enhanced_dictionary.h
-struct MultiWordEntry;
-
-struct TrieNode {
-    std::unordered_map<char, std::unique_ptr<TrieNode>> children;
-    bool isEndOfWord;
-    MultiWordEntry* wordData; // Store pointer to avoid circular dependency
-
-    TrieNode() : isEndOfWord(false), wordData(nullptr) {}
-    ~TrieNode();
+struct Meaning {
+    std::string definition;
+    std::string arabic;
+    Meaning() {}
+    Meaning(const std::string& def, const std::string& ar) : definition(def), arabic(ar) {}
 };
 
-class AdvancedTrie {
+struct Word {
+    std::string word;
+    std::vector<Meaning> meanings;
+    Word() {}
+    Word(const std::string& w) : word(w) {}
+};
+
+class Dictionary {
 private:
-    std::unique_ptr<TrieNode> root;
-    int totalWords;
-
-    void collectWords(TrieNode* node, const std::string& prefix,
-        std::vector<MultiWordEntry>& results, int maxResults) const;
-    size_t calculateMemoryUsage(TrieNode* node) const;
-
+    Trie trie;
+    std::unordered_map<std::string, Word> words;
+    std::unordered_map<std::string, std::vector<std::string>> arabicIndex;
 public:
-    AdvancedTrie();
-    bool insert(const MultiWordEntry& entry);
-    MultiWordEntry search(const std::string& word) const;
-    bool contains(const std::string& word) const;
-    std::vector<std::string> getWordSuggestions(const std::string& prefix, int maxResults = 20) const;
-    std::vector<MultiWordEntry> getAutoCompleteWords(const std::string& prefix, int maxResults = 20) const;
-    void clear();
-    int getWordCount() const { return totalWords; }
-    bool empty() const { return totalWords == 0; }
-    size_t getMemoryUsage() const;
-    void optimizeMemory();
+    Dictionary();
+    bool addWord(const std::string& english, const std::string& meaning, const std::string& arabic = "");
+    bool addMeaning(const std::string& english, const std::string& meaning, const std::string& arabic = "");
+    bool deleteMeaning(const std::string& english, int meaningIndex = -1);
+    Word* findWord(const std::string& english);
+    std::vector<std::string> findEnglish(const std::string& arabic);
+    std::vector<std::string> autocomplete(const std::string& prefix);
+    int wordCount() const { return words.size(); }
+    int meaningCount() const;
+private:
+    void loadBuiltIn();
+    void save();
+    void load();
+    std::string toLower(const std::string& s) const;
+    void updateArabicIndex(const std::string& arabic, const std::string& english);
+    void removeFromArabicIndex(const std::string& arabic, const std::string& english);
 };
 
-#endif // ADVANCED_TRIE_H
+#endif
