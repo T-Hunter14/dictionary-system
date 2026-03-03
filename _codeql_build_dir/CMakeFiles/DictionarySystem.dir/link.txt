@@ -1,1 +1,0 @@
-/tmp/codeql-scratch-e4383a342fac624b/dbs/cpp/working/autobuild/bin/c++ -O3 -DNDEBUG -flto -Wl,--dependency-file=CMakeFiles/DictionarySystem.dir/link.d CMakeFiles/DictionarySystem.dir/main.cpp.o CMakeFiles/DictionarySystem.dir/enhanced_dictionary.cpp.o CMakeFiles/DictionarySystem.dir/advanced_trie.cpp.o -o DictionarySystem

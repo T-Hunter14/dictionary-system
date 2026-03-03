@@ -1,4 +1,0 @@
-/home/runner/work/dictionary-system/dictionary-system/_codeql_build_dir/CMakeFiles/DictionarySystem.dir
-/home/runner/work/dictionary-system/dictionary-system/_codeql_build_dir/CMakeFiles/run.dir
-/home/runner/work/dictionary-system/dictionary-system/_codeql_build_dir/CMakeFiles/edit_cache.dir
-/home/runner/work/dictionary-system/dictionary-system/_codeql_build_dir/CMakeFiles/rebuild_cache.dir
